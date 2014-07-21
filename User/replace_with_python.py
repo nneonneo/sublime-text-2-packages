@@ -27,15 +27,15 @@ class ReplaceWithPythonCommand(sublime_plugin.TextCommand):
             sublime.error_message("Error while compiling your code: " + str(e))
             return
 
-    	sel = self.view.sel()
-    	for r in sel:
-    		text = self.view.substr(r)
-    		try:
-    			d = {"text": text, "re": re}
-    			exec code in d
-    			newtext = d['text']
-    		except Exception as e:
-    			sublime.error_message("Error while running your code: " + str(e))
-    			break
+        sel = self.view.sel()
+        for r in sel:
+            text = self.view.substr(r)
+            try:
+                d = {"text": text, "re": re}
+                exec code in d
+                newtext = d['text']
+            except Exception as e:
+                sublime.error_message("Error while running your code: " + str(e))
+                break
 
-    		self.view.replace(edit, r, newtext)
+            self.view.replace(edit, r, newtext)
