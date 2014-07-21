@@ -21,6 +21,12 @@ class ReplaceWithPythonCommand(sublime_plugin.TextCommand):
         # Make some common modules available
         import re
 
+        try:
+            code = compile(code, "<string>", "exec")
+        except Exception as e:
+            sublime.error_message("Error while compiling your code: " + str(e))
+            return
+
     	sel = self.view.sel()
     	for r in sel:
     		text = self.view.substr(r)
