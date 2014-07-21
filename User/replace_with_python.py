@@ -28,12 +28,13 @@ class ReplaceWithPythonCommand(sublime_plugin.TextCommand):
             return
 
         sel = self.view.sel()
+        codeglobals = {"re": re}
         for r in sel:
             text = self.view.substr(r)
             try:
-                d = {"text": text, "re": re}
-                exec code in d
-                newtext = d['text']
+                codelocals = {"text": text}
+                exec code in codeglobals, codelocals
+                newtext = codelocals['text']
             except Exception as e:
                 sublime.error_message("Error while running your code: " + str(e))
                 break
