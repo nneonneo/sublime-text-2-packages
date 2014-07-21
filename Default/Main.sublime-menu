@@ -331,6 +331,7 @@
             { "command": "show_panel", "args": {"panel": "incremental_find", "reverse": false}, "caption": "Incremental Find" },
             { "caption": "-" },
             { "command": "show_panel", "args": {"panel": "replace"}, "caption": "Replace…" },
+            { "caption": "Replace With Python", "command": "prompt_replace_with_python"},
             { "command": "replace_next" },
             { "caption": "-" },
             { "command": "find_under", "caption": "Quick Find" },

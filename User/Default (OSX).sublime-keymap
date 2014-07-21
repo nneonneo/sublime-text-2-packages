@@ -1,2 +1,4 @@
 [
+	{ "keys": ["alt+f5"], "command": "permute_lines", "args": {"operation": "unique"} },
+	{ "keys": ["option+super+e"], "command": "prompt_replace_with_python" }
 ]
