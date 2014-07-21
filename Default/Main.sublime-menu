@@ -279,6 +279,7 @@
                 "caption": "Permute Lines",
                 "children":
                 [
+                    { "command": "prompt_sort_lines_with_python", "caption": "Sort With Python" },
                     { "command": "permute_lines", "args": {"operation": "reverse"}, "caption": "Reverse" },
                     { "command": "permute_lines", "args": {"operation": "unique"}, "caption": "Unique" },
                     { "command": "permute_lines", "args": {"operation": "shuffle"}, "caption": "Shuffle" }
@@ -290,6 +291,7 @@
                 [
                     { "command": "sort_selection", "args": {"case_sensitive": false}, "caption": "Sort" },
                     { "command": "sort_selection", "args": {"case_sensitive": true}, "caption": "Sort (Case Sensitive)" },
+                    { "command": "prompt_sort_selections_with_python", "caption": "Sort With Python" },
                     { "command": "permute_selection", "args": {"operation": "reverse"}, "caption": "Reverse" },
                     { "command": "permute_selection", "args": {"operation": "unique"}, "caption": "Unique" },
                     { "command": "permute_selection", "args": {"operation": "shuffle"}, "caption": "Shuffle" }
