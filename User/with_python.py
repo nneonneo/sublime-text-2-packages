@@ -71,7 +71,7 @@ class SortLinesWithPythonCommand(sublime_plugin.TextCommand):
         if not sel or (len(sel) == 1 and sel[0].empty()):
             sel = [sublime.Region(0, self.view.size())]
 
-        for r in sel:
+        for seli, r in enumerate(sel):
             r = self.view.line(r) # make region span full lines
             rlines = self.view.lines(r)
             lines = [[i, self.view.substr(self.view.full_line(rline))] for i, rline in enumerate(rlines)]
@@ -84,7 +84,7 @@ class SortLinesWithPythonCommand(sublime_plugin.TextCommand):
                 final_newline = False
 
             try:
-                lines.sort(key=lambda (i, line): eval(code, codeglobals, {"line": line.rstrip('\n'), "index": i}))
+                lines.sort(key=lambda (i, line): eval(code, codeglobals, {"line": line.rstrip('\n'), "index": seli, "lineno": i}))
             except Exception as e:
                 sublime.error_message("Error while running your code: " + str(e))
                 break
