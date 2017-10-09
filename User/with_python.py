@@ -28,10 +28,10 @@ class ReplaceWithPythonCommand(sublime_plugin.TextCommand):
         codeglobals = {"re": re}
 
         sel = self.view.sel()
-        for r in sel:
+        for i, r in enumerate(sel):
             text = self.view.substr(r)
             try:
-                codelocals = {"text": text}
+                codelocals = {"text": text, "index": i}
                 exec code in codeglobals, codelocals
                 newtext = codelocals['text']
             except Exception as e:
@@ -73,23 +73,23 @@ class SortLinesWithPythonCommand(sublime_plugin.TextCommand):
 
         for r in sel:
             r = self.view.line(r) # make region span full lines
-            liners = self.view.lines(r)
-            lines = [self.view.substr(self.view.full_line(liner)) for liner in liners]
+            rlines = self.view.lines(r)
+            lines = [[i, self.view.substr(self.view.full_line(rline))] for i, rline in enumerate(rlines)]
             if not lines:
                 continue
-            if lines[-1].endswith('\n'):
+            if lines[-1][1].endswith('\n'):
                 final_newline = True
             else:
-                lines[-1] += '\n'
+                lines[-1][1] += '\n'
                 final_newline = False
 
             try:
-                lines.sort(key=lambda line: eval(code, codeglobals, {"line": line.rstrip('\n')}))
+                lines.sort(key=lambda (i, line): eval(code, codeglobals, {"line": line.rstrip('\n'), "index": i}))
             except Exception as e:
                 sublime.error_message("Error while running your code: " + str(e))
                 break
 
-            out = ''.join(lines)
+            out = ''.join([line for i, line in lines])
             if not final_newline:
                 if out.endswith('\n'):
                     out = out[:-1]
@@ -127,7 +127,7 @@ class SortSelectionsWithPythonCommand(sublime_plugin.TextCommand):
         codeglobals = {"re": re}
 
         sel = self.view.sel()
-        texts = [self.view.substr(r) for r in sel]
-        texts.sort(key=lambda text: eval(code, codeglobals, {"text": text}))
-        for r, t in reversed(zip(sel, texts)):
+        texts = [[i, self.view.substr(r)] for i, r in enumerate(sel)]
+        texts.sort(key=lambda (i, text): eval(code, codeglobals, {"text": text, "index": i}))
+        for r, (i, t) in reversed(zip(sel, texts)):
             self.view.replace(edit, r, t)
